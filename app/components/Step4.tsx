@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import Cropper from 'react-easy-crop';
 // NOTE: uploads are routed through server API to use the service role key
 
 interface UserData {
@@ -16,6 +17,40 @@ interface Step4Props {
   userData: UserData | null;
   onOpenTerms: () => void;
 }
+
+const createImage = (url: string): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener('load', () => resolve(image));
+    image.addEventListener('error', (err) => reject(err));
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = url;
+  });
+
+const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<string> => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  if (!ctx) throw new Error('No context');
+
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
+
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  );
+
+  return canvas.toDataURL('image/jpeg');
+};
 
 export default function Step4({
   onPrev,
@@ -34,6 +69,30 @@ export default function Step4({
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Estados para crop
+  const [showCropper, setShowCropper] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const handleCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleConfirmCrop = async () => {
+    if (!imageToCrop || !croppedAreaPixels) return;
+    
+    try {
+      const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
+      setImagePreview(croppedImage);
+      setShowCropper(false);
+    } catch (error) {
+      console.error('Erro ao fazer crop:', error);
+      alert('Erro ao processar a imagem.');
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -43,7 +102,11 @@ export default function Step4({
 
       const reader = new FileReader();
       reader.onload = (event) => {
-        setImagePreview(event.target?.result as string);
+        const result = event.target?.result as string;
+        setImageToCrop(result);
+        setShowCropper(true);
+        setCrop({ x: 0, y: 0 });
+        setZoom(1);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -53,6 +116,15 @@ export default function Step4({
     setFile(null);
     setFileName('');
     setImagePreview(null);
+    setImageToCrop(null);
+    setShowCropper(false);
+  };
+
+  const handleCancelCrop = () => {
+    setShowCropper(false);
+    setImageToCrop(null);
+    setFile(null);
+    setFileName('');
   };
 
   const handleSubmit = async () => {
@@ -141,11 +213,6 @@ export default function Step4({
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 255, 255, 0.8)', zIndex: 0 }} />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <>
-          <div className="card-header">
-            <h1 className="card-title">Sua História</h1>
-            <p className="card-subtitle">Compartilhe sua jornada conosco</p>
-          </div>
-
           <form>
             <div className="form-group">
               <label htmlFor="formMatricula">Matrícula</label>
@@ -158,7 +225,7 @@ export default function Step4({
             </div>
 
             <div className="form-group">
-              <label htmlFor="formSetor">Setor</label>
+              <label htmlFor="formSetor">Departamento</label>
               <input
                 type="text"
                 id="formSetor"
@@ -168,46 +235,107 @@ export default function Step4({
             </div>
 
             <div className="form-group">
-              <label htmlFor="formFoto">Sua Foto</label>
-              <div className="file-input-wrapper">
-                <input
-                  type="file"
-                  id="formFoto"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="formFoto" className="file-input-label">
-                  📷 Clique para selecionar uma foto
-                </label>
-              </div>
-              <p style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '8px', fontStyle: 'italic' }}>
-                ⓘ Adicione uma foto sua como profissional
-              </p>
-              {fileName && <div className="file-name">{fileName}</div>}
-              {imagePreview && (
-                <div className="image-preview">
-                  <img src={imagePreview} alt="Preview da foto" />
-                  <button
-                    type="button"
-                    className="remove-image"
-                    onClick={handleRemoveImage}
-                  >
-                    ✕ Remover
-                  </button>
+              <label htmlFor="formFoto">Sua Foto <span style={{ color: '#d32f2f' }}>*</span></label>
+              {!showCropper && (
+                <>
+                  <div className="file-input-wrapper">
+                    <input
+                      type="file"
+                      id="formFoto"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                    <label htmlFor="formFoto" className="file-input-label">
+                      📷 Clique para selecionar uma foto
+                    </label>
+                  </div>
+                  <p style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '8px', fontStyle: 'italic' }}>
+                    ⓘ Adicione uma foto sua como profissional
+                  </p>
+                  {fileName && <div className="file-name">{fileName}</div>}
+                  {imagePreview && (
+                    <div className="image-preview">
+                      <img src={imagePreview} alt="Preview da foto" />
+                      <button
+                        type="button"
+                        className="remove-image"
+                        onClick={handleRemoveImage}
+                      >
+                        ✕ Remover
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+              
+              {showCropper && imageToCrop && (
+                <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', marginTop: '10px' }}>
+                  <p style={{ marginBottom: '15px', fontWeight: '600' }}>Reposicione sua imagem no quadrado 1080x1080</p>
+                  <div style={{ position: 'relative', width: '100%', height: '400px', backgroundColor: '#f0f0f0', borderRadius: '8px', overflow: 'hidden' }}>
+                    <Cropper
+                      image={imageToCrop}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={1}
+                      cropShape="round"
+                      showGrid={false}
+                      onCropChange={setCrop}
+                      onCropComplete={handleCropComplete}
+                      onZoomChange={setZoom}
+                      restrictPosition={false}
+                    />
+                  </div>
+                  
+                  <div style={{ marginTop: '15px' }}>
+                    <label style={{ display: 'block', marginBottom: '10px', fontSize: '14px', fontWeight: '500' }}>
+                      Zoom: {Math.round(zoom * 100)}%
+                    </label>
+                    <input
+                      type="range"
+                      min={1}
+                      max={3}
+                      step={0.1}
+                      value={zoom}
+                      onChange={(e) => setZoom(parseFloat(e.target.value))}
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      onClick={handleCancelCrop}
+                      style={{ flex: 1 }}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={handleConfirmCrop}
+                      style={{ flex: 1 }}
+                    >
+                      Confirmar Foto
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
 
             <div className="form-group">
-              <label htmlFor="formHistoria">Sua História</label>
+              <label htmlFor="formHistoria">Estamos celebrando os 50 anos da nossa história, e será muito especial saber de você como se sente fazendo parte dessa trajetória e o que ela representa. <span style={{ color: '#d32f2f' }}>*</span></label>
               <textarea
                 id="formHistoria"
-                placeholder="Conte sua história... Fale sobre sua trajetória, desafios que superou, conquistas que te orgulham, o que significa ser mulher na Amazônia para você..."
+                maxLength={1000}
                 value={formData.historia}
                 onChange={(e) =>
                   setFormData({ ...formData, historia: e.target.value })
                 }
               ></textarea>
+              <div style={{ fontSize: '12px', color: '#666', marginTop: '8px', textAlign: 'right' }}>
+                {formData.historia.length}/1000 caracteres ({Math.round((formData.historia.length / 1000) * 100)}%)
+              </div>
             </div>
 
             <div className="form-group">

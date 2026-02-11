@@ -63,11 +63,10 @@ export default function Step5({ onClose }: Step5Props) {
               marginTop: '30px',
             }}
           >
-            🌺 Parabéns pelo seu dia! 🌺
           </p>
 
           <div className="qr-section">
-            <h3>Compartilhe esta campanha</h3>
+            <h3>Compartilhe está campanha com outras mulheres do seu setor</h3>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '30px auto' }}>
               <QRCodeSVG
                 value={typeof window !== 'undefined' ? window.location.href : 'https://campanha.local'}

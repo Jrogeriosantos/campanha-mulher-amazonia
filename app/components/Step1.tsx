@@ -14,7 +14,7 @@ export default function Step1({ onNext }: Step1Props) {
         </div>
         <div style={{ padding: '20px', paddingTop: 0, marginTop: -50 }}>
           <div className="card-header">
-            <h1 className="card-title">Bem-vinda a nossa campanha especial em celebração ao Dia Internacional <br /> das Mulheres!</h1>
+            <h1 className="card-title" style={{ marginTop: '30px' }}>Bem-vinda a nossa campanha especial em celebração ao Dia Internacional <br /> das Mulheres!</h1>
           </div>
 
           <p className="description" style={{ padding: '20px', textAlign: 'center', marginTop: -40 }}>
@@ -24,7 +24,7 @@ export default function Step1({ onNext }: Step1Props) {
             diversidade que nos une.
           </p>
 
-          <span className="text-center w-full block font-bold">Período de envio: 11 a 19 de fevereiro</span>
+          <span className="text-center w-full block font-bold">Período de envio: 11 a 20 de fevereiro</span>
 
           <div className="button-group">
             <button className="btn-primary" onClick={onNext}>

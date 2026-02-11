@@ -104,7 +104,7 @@ export default function Step3({ onPrev, onNext, onUserData }: Step3Props) {
         <>
           <div className="card-header">
             <h1 className="card-title">Identificação</h1>
-            <p className="card-subtitle">Preencha seus dados de trabalho</p>
+            <p className="card-subtitle">Preencha com os seus dados</p>
           </div>
 
           {error && <div className="error-message active">{error}</div>}
@@ -123,25 +123,14 @@ export default function Step3({ onPrev, onNext, onUserData }: Step3Props) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="setorInput">Setor</label>
-            <input
-              type="text"
-              id="setorInput"
-              placeholder="Digite seu setor (ex: Administrativo, RH, TI...)"
-              value={setor}
-              onChange={(e) => setSetor(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="refeitorioInput">Refeitório</label>
+            <label htmlFor="refeitorioInput">Em qual refeitório costuma fazer suas refeições</label>
             <select
               id="refeitorioInput"
               className="form-input"
               value={refeitorio}
               onChange={(e) => setRefeitorio(e.target.value)}
             >
-              <option value="">Selecione o refeitório que frequenta</option>
+              <option value="">Selecione o refeitório</option>
               <option value="R1">R1</option>
               <option value="R2">R2</option>
               <option value="R3">R3</option>
@@ -166,7 +155,7 @@ export default function Step3({ onPrev, onNext, onUserData }: Step3Props) {
                 <strong>Matrícula:</strong> {userData.matricula}
               </p>
               <p>
-                <strong>Setor:</strong> {userData.setor}
+                <strong>Departamento:</strong> {userData.setor}
               </p>
               <p>
                 <strong>Refeitório:</strong> {userData.refeitorio}

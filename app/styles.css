@@ -290,12 +290,6 @@ body {
   border-radius: 12px;
   font-size: 16px;
   line-height: 1.6;
-  transition: all 0.3s ease;
-}
-
-.instructions-list li:hover {
-  background: rgba(123, 159, 26, 0.15);
-  transform: translateX(5px);
 }
 
 .instructions-list li strong {
@@ -779,4 +773,98 @@ input[type="checkbox"] {
     height: 35px;
     font-size: 12px;
   }
+}
+
+/* React Easy Crop Styles */
+.react-easy-crop_Container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.react-easy-crop_Image {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.react-easy-crop_CropAreaGrid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.react-easy-crop_CropAreaGrid::before,
+.react-easy-crop_CropAreaGrid::after,
+.react-easy-crop_CropAreaGrid > div:before,
+.react-easy-crop_CropAreaGrid > div:after {
+  content: '';
+  position: absolute;
+  pointer-events: auto;
+}
+
+.react-easy-crop_CropAreaGrid::before {
+  left: 33.333%;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.react-easy-crop_CropAreaGrid::after {
+  left: 66.666%;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.react-easy-crop_CropAreaGrid > div:before {
+  top: 33.333%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.react-easy-crop_CropAreaGrid > div:after {
+  top: 66.666%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.react-easy-crop_Overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.react-easy-crop_CropArea {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  border: 2px solid #ffcc00;
 }
