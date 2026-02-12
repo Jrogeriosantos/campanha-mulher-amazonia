@@ -66,7 +66,7 @@ export default function Step5({ onClose }: Step5Props) {
           </p>
 
           <div className="qr-section">
-            <h3 style={{ fontWeight: 'bold' }}>Compartilhe esta campanha com outras mulheres do seu setor</h3>
+            <h3 style={{ fontWeight: 'bold' }}>Compartilhe esta campanha com outras mulheres do seu setor!</h3>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '30px auto' }}>
               <QRCodeSVG
                 value={typeof window !== 'undefined' ? window.location.href : 'https://campanha.local'}
