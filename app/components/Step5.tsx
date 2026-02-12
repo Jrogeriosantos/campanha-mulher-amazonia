@@ -10,7 +10,7 @@ export default function Step5({ onClose }: Step5Props) {
   const handleShare = () => {
     const shareData = {
       title: 'Campanha Internacional do Dia da Mulher',
-      text: 'Participe da nossa campanha especial celebrando a força e empoderamento feminino!',
+      text: '',
       url: typeof window !== 'undefined' ? window.location.href : '',
     };
 
