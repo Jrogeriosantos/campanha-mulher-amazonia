@@ -26,7 +26,7 @@ export default function Step2({ onPrev, onNext }: Step2Props) {
           atual, do trabalho ou de um momento especial. */}
           </li>
           <li>
-            <strong>Passo 3. Compartilhe como é a sua experiência, trajetória ou conquistas na empresa</strong>
+            <strong>Passo 3: Compartilhe como você se sente fazendo parte dos 50 anos da Moto Honda.</strong>
             {/* Escreva sobre sua trajetória, desafios que superou, conquistas que te
           orgulham. Seja autêntica! */}
           </li>
