@@ -24,7 +24,7 @@ export default function Step1({ onNext }: Step1Props) {
             diversidade que nos une.
           </p>
 
-          <span className="text-center w-full block font-bold">Período de envio: 11 a 20 de fevereiro</span>
+          <span className="text-center w-full block font-bold">Período de envio: 12 a 20 de fevereiro</span>
 
           <div className="button-group">
             <button className="btn-primary" onClick={onNext}>
