@@ -1,4 +1,5 @@
 import CampaignApp from "./components/CampaignApp";
+import TextReplacer from "./components/TextReplacer";
 
 export const metadata = {
   title: "Campanha Mulher Amazônia",
@@ -10,5 +11,10 @@ export const metadata = {
 };
 
 export default function Home() {
-  return <CampaignApp />;
+  return (
+    <>
+      <TextReplacer />
+      <CampaignApp />
+    </>
+  );
 }
