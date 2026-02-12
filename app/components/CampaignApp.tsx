@@ -56,13 +56,7 @@ export default function CampaignApp() {
     setIsTermsModalOpen(false);
   };
 
-  const handleCloseForm = () => {
-    setCurrentStep(1);
-    setUserData(null);
-    setTermsCheckbox(false);
-    alert('Formulário fechado! Obrigada pela participação. 🌺');
-  };
-
+  
   return (
     <>
       <BackgroundDecoration />
@@ -91,7 +85,7 @@ export default function CampaignApp() {
             />
           )}
           {currentStep === 5 && (
-            <Step5 onClose={handleCloseForm} />
+            <Step5 />
           )}
         </Card>
       </div>

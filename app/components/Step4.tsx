@@ -69,6 +69,7 @@ export default function Step4({
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   
   // Estados para crop
   const [showCropper, setShowCropper] = useState(false);
@@ -125,6 +126,11 @@ export default function Step4({
     setImageToCrop(null);
     setFile(null);
     setFileName('');
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccessModal(false);
+    onNext();
   };
 
   const handleSubmit = async () => {
@@ -200,7 +206,7 @@ export default function Step4({
       }
 
       setIsSubmitting(false);
-      onNext();
+      setShowSuccessModal(true);
     } catch (error) {
       console.error('Erro inesperado:', error);
       alert('Erro ao enviar o formulário. Tente novamente.');
@@ -372,9 +378,22 @@ export default function Step4({
               ← Voltar
             </button>
             <button className="btn-primary" onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? '⏳ Enviando...' : 'Enviar História →'}
+              {isSubmitting ? '⏳ Enviando...' : 'Concluir'}
             </button>
           </div>
+
+          {showSuccessModal && (
+            <div className="modal" style={{ display: 'flex' }}>
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p style={{ fontSize: '16px', margin: 0 }}>Preenchido com sucesso! Obrigado pela participação</p>
+                </div>
+                <div className="modal-footer">
+                  <button className="btn-primary" onClick={handleCloseSuccess}>OK</button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       </div>
     </div>

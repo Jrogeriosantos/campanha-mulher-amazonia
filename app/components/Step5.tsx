@@ -2,14 +2,10 @@
 
 import { QRCodeSVG } from "qrcode.react";
 
-interface Step5Props {
-  onClose: () => void;
-}
-
-export default function Step5({ onClose }: Step5Props) {
-  const handleShare = () => {
+export default function Step5() {
+    const handleShare = () => {
     const shareData = {
-      title: 'Campanha Internacional do Dia da Mulher',
+      title: 'Campanha do Dia internacional da Mulher',
       text: '',
       url: typeof window !== 'undefined' ? window.location.href : '',
     };
@@ -81,9 +77,6 @@ export default function Step5({ onClose }: Step5Props) {
           <div className="button-group">
             <button className="btn-secondary" onClick={handleShare}>
               📤 Compartilhar
-            </button>
-            <button className="btn-primary" onClick={onClose}>
-              Concluir
             </button>
           </div>
         </div>
