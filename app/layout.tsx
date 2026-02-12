@@ -25,10 +25,6 @@ const quicksand = Quicksand({
   weight: ["300", "400", "500", "600"],
 });
 
-export const metadata: Metadata = {
-  title: "Campanha Internacional do Dia da Mulher",
-  description: "Celebrando a força e empoderamento feminino",
-};
 
 export default function RootLayout({
   children,

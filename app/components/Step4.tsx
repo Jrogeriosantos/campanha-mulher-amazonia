@@ -250,7 +250,7 @@ export default function Step4({
                     </label>
                   </div>
                   <p style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '8px', fontStyle: 'italic' }}>
-                    ⓘ Adicione uma foto sua como profissional
+                    ⓘ Adicione sua foto
                   </p>
                   {fileName && <div className="file-name">{fileName}</div>}
                   {imagePreview && (
