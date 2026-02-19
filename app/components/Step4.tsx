@@ -98,6 +98,13 @@ export default function Step4({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
+      const MAX_BYTES = 2.5 * 1024 * 1024; // 2.5 MB
+      if (selectedFile.size > MAX_BYTES) {
+        alert('Tamanho máximo permitido para a foto é 2,5 MB. Selecione uma imagem menor.');
+        e.target.value = '';
+        return;
+      }
+
       setFile(selectedFile);
       setFileName(`✓ ${selectedFile.name}`);
 
@@ -256,9 +263,9 @@ export default function Step4({
                     </label>
                   </div>
                   <p style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '8px', fontStyle: 'italic' }}>
-                    ⓘ Adicione sua foto
+                    ⓘ Adicione sua foto (máx. 2,5 MB)
                   </p>
-                  {fileName && <div className="file-name">{fileName}</div>}
+                                    {fileName && <div className="file-name">{fileName}</div>}
                   {imagePreview && (
                     <div className="image-preview">
                       <img src={imagePreview} alt="Preview da foto" />
