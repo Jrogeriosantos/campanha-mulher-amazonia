@@ -9,6 +9,7 @@ interface UserData {
   nome: string;
   matricula: string;
   setor: string;
+  refeitorio: string;
 }
 
 interface Step4Props {
@@ -62,6 +63,7 @@ export default function Step4({
     nome: userData?.nome || '',
     matricula: userData?.matricula || '',
     setor: userData?.setor || '',
+    refeitorio: userData?.refeitorio || '',
     historia: '',
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -141,7 +143,7 @@ export default function Step4({
   };
 
   const handleSubmit = async () => {
-    if (!formData.nome || !formData.matricula || !formData.setor) {
+    if (!formData.nome || !formData.matricula || !formData.setor || !formData.refeitorio) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
@@ -185,6 +187,7 @@ export default function Step4({
           nome: formData.nome,
           matricula: formData.matricula,
           setor: formData.setor,
+          refeitorio: formData.refeitorio,
           historia: formData.historia,
           fileName: file.name,
           fileType: file.type,
@@ -352,12 +355,12 @@ export default function Step4({
             </div>
 
             <div className="form-group">
-              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '400', cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '400', cursor: 'pointer', pointerEvents: 'auto', position: 'relative', zIndex: 2 }}>
                 <input
                   type="checkbox"
                   checked={termsAccepted}
                   onChange={(e) => setTermsAccepted(e.target.checked)}
-                  style={{ width: 'auto', cursor: 'pointer' }}
+                  style={{ width: 'auto', cursor: 'pointer', pointerEvents: 'auto' }}
                 />
                 <span>
                   Eu li e aceito os{' '}

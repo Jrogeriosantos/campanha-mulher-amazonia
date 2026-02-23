@@ -15,6 +15,7 @@ interface UserData {
   nome: string;
   matricula: string;
   setor: string;
+  refeitorio: string;
 }
 
 export default function CampaignApp() {

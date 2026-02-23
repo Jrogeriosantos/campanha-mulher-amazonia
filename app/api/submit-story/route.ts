@@ -4,7 +4,7 @@ import supabaseAdmin from "../../../lib/supabaseAdmin";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { nome, matricula, setor, historia, fileName, fileType, fileBase64 } =
+    const { nome, matricula, setor, refeitorio, historia, fileName, fileType, fileBase64 } =
       body;
 
     if (
@@ -12,6 +12,7 @@ export async function POST(req: Request) {
       !matricula ||
       !setor ||
       !historia ||
+      !refeitorio ||
       !fileBase64 ||
       !fileName
     ) {
@@ -60,6 +61,7 @@ export async function POST(req: Request) {
         nome,
         matricula,
         setor,
+        refeitorio: refeitorio,
         historia,
         foto: photoUrl,
         created_at: new Date().toISOString(),
